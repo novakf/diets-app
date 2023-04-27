@@ -1,45 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button'
 
 function App() {
-  const [customers, setCustomers] = useState(false);
+  const [products, setProducts] = useState(false);
 
   useEffect(() => {
-    getCustomer();
+    getProduct();
   }, []);
 
-  function getCustomer() {
+  function getProduct() {
     fetch('http://localhost:3001')
       .then(response => {
         return response.text();
       })
       .then(data => {
-        setCustomers(data);
-        console.log(customers)
+        setProducts(data);
+        console.log(products)
       });
   }
 
-  function createCustomer() {
-    let last_name = prompt('Enter customer name');
-    let email = prompt('Enter customer email');
-    fetch('http://localhost:3001/customers', {
+  function createProduct() {
+    let name = prompt('Enter product name');
+    let category = prompt('Enter product category');
+    fetch('http://localhost:3001/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ last_name, email }),
+      body: JSON.stringify({ name, category }),
     })
       .then(response => {
         return response.text();
       })
       .then(data => {
         alert(data);
-        getCustomer();
+        getProduct();
       });
   }
 
-  function deleteCustomer() {
-    let id = prompt('Enter customer id');
-    fetch(`http://localhost:3001/customers/${id}`, {
+  function deleteProduct() {
+    let id = prompt('Enter product id');
+    fetch(`http://localhost:3001/products/${id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -47,29 +49,24 @@ function App() {
       })
       .then(data => {
         alert(data);
-        getCustomer();
+        getProduct();
       });
   }
 
   return (
     <div>
-      {console.log(JSON.parse(customers))}
-      {customers ? customers : 'There is no customers data available'}
-      <br />
-      <button onClick={createCustomer}>Add customer</button>
-      <br />
-      <button onClick={deleteCustomer}>Delete customer</button>
-
+      <Button variant="outlined" onClick={createProduct}>Add product</Button>
+      <Button variant="outlined" onClick={deleteProduct}>Delete product</Button>
       <div>
-        {Object.values((JSON.parse(customers))).map(customer =>
-          <div key={customer.customer_id}>
-            <span>id: {customer.customer_id}</span>
+        {products && Object.values((JSON.parse(products))).map(product =>
+          <div key={product.product_id}>
+            <span>id: {product.product_id}</span>
             <br />
-            <span>Компания: {customer.company_name}</span>
+            <span>Название: {product.product_name}</span>
             <br />
-            <span>Фамилия: {customer.last_name}</span>
+            <span>Категория: {product.category}</span>
             <br />
-            <span>Имя: {customer.first_name}</span>
+            <span>Цена: {product.price} руб.</span>
           </div>
         )}
       </div>

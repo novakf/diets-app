@@ -13,7 +13,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  merchant_model.getCustomers()
+  merchant_model.getProducts()
   .then(response => {
     res.status(200).send(response);
   })
@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
   })
 })
 
-app.post('/customers', (req, res) => {
-  merchant_model.createCustomer(req.body)
+app.post('/products', (req, res) => {
+  merchant_model.createProduct(req.body)
   .then(response => {
     res.status(200).send(response);
   })
@@ -32,8 +32,8 @@ app.post('/customers', (req, res) => {
   })
 })
 
-app.delete('/customers/:id', (req, res) => {
-  merchant_model.deleteCustomer(req.params.id)
+app.delete('/products/:id', (req, res) => {
+  merchant_model.deleteProduct(req.params.id)
   .then(response => {
     res.status(200).send(response);
   })

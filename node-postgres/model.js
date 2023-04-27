@@ -7,44 +7,44 @@ const pool = new Pool({
   port: 5432,
 });
 
-const getCustomers = () => {
+const getProducts = () => {
   return new Promise(function(resolve, reject) {
-    pool.query('SELECT * FROM customers', (error, results) => {
+    pool.query('SELECT * FROM products', (error, results) => {
       if (error) {
         reject(error)
       }
       resolve(results.rows);
     })
-  }) 
+  })
 }
 
-const createCustomer = (body) => {
+const createProduct = (body) => {
   return new Promise(function(resolve, reject) {
-    const { last_name, email } = body
-    pool.query('INSERT INTO customers (last_name, email) VALUES ($1, $2) RETURNING *', [last_name, email], (error, results) => {
+    const { name, category } = body
+    pool.query('INSERT INTO products (product_name, category) VALUES ($1, $2) RETURNING *', [name, category], (error, results) => {
       if (error) {
         reject(error)
         console.log(error)
       }
-      resolve(`A new Customer has been added: ${results.rows[0]}`)
+      resolve(`A new Product has been added: ${results.rows[0]}`)
     })
   })
 }
 
-const deleteCustomer = (id) => {
+const deleteProduct = (id) => {
   return new Promise(function(resolve, reject) {
-    const customer_id = id
-    pool.query('DELETE FROM customers WHERE customer_id = $1', [customer_id], (error, results) => {
+    const product_id = id
+    pool.query('DELETE FROM products WHERE product_id = $1', [product_id], (error, results) => {
       if (error) {
         reject(error)
       }
-      resolve(`Customer deleted with ID: ${id}`)
+      resolve(`Product deleted with ID: ${id}`)
     })
   })
 }
 
 module.exports = {
-  getCustomers,
-  createCustomer,
-  deleteCustomer,
+  getProducts,
+  createProduct,
+  deleteProduct,
 }
