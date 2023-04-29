@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
+import './App.css'
 
 function App() {
   const [products, setProducts] = useState(false);
@@ -59,10 +59,10 @@ function App() {
       <Button variant="outlined" onClick={deleteProduct}>Delete product</Button>
       <div>
         {products && Object.values((JSON.parse(products))).map(product =>
-          <div key={product.product_id}>
-            <span>id: {product.product_id}</span>
+          <div className='info' key={product.product_id}>
+
             <br />
-            <span>Название: {product.product_name}</span>
+            <span>{product.product_id}. Название: {product.product_name}</span>
             <br />
             <span>Категория: {product.category}</span>
             <br />

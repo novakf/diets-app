@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express'
+import * as model from './model.js'
+
 const app = express()
 const port = 3001
-
-const merchant_model = require('./model')
 
 app.use(express.json())
 app.use(function (req, res, next) {
@@ -13,35 +13,38 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  merchant_model.getProducts()
-  .then(response => {
-    res.status(200).send(response);
-  })
-  .catch(error => {
-    res.status(500).send(error);
-  })
+  model.getProducts()
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    })
 })
 
 app.post('/products', (req, res) => {
-  merchant_model.createProduct(req.body)
-  .then(response => {
-    res.status(200).send(response);
-  })
-  .catch(error => {
-    res.status(500).send(error);
-  })
+  model.createProduct(req.body)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    })
 })
 
 app.delete('/products/:id', (req, res) => {
-  merchant_model.deleteProduct(req.params.id)
-  .then(response => {
-    res.status(200).send(response);
-  })
-  .catch(error => {
-    res.status(500).send(error);
-  })
+  model.deleteProduct(req.params.id)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    })
 })
 
-app.listen(port, () => {
+app.listen(port, (err) => {
+  if (err) {
+    return console.log(err)
+  }
   console.log(`App running on port ${port}.`)
 })
