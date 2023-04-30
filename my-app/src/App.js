@@ -9,6 +9,24 @@ function App() {
     getProduct();
   }, []);
 
+  function authUser() {
+    let login = prompt('Login')
+    let password = prompt('Pass')
+    fetch('http://localhost:3001/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ login, password })
+    })
+      .then(response => {
+        return response.text()
+      })
+      .then(data => {
+        alert(data)
+      })
+  }
+
   function getProduct() {
     fetch('http://localhost:3001')
       .then(response => {
@@ -57,6 +75,7 @@ function App() {
     <div>
       <Button variant="outlined" onClick={createProduct}>Add product</Button>
       <Button variant="outlined" onClick={deleteProduct}>Delete product</Button>
+      <Button variant='outlined' onClick={authUser}>Auth</Button>
       <div>
         {products && Object.values((JSON.parse(products))).map(product =>
           <div className='info' key={product.product_id}>
