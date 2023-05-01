@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
 app.post('/auth/register', registerValidation, (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return res.status(400).json(errors.array())
+    return res.status(400).json(errors.array()[0].msg)
   }
   model.createUser(req.body)
     .then(response => {
