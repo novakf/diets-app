@@ -7,25 +7,21 @@ const HomePage = () => {
     const navigate = useNavigate()
 
     React.useEffect(() => {
-        if (!token) return navigate('/login')
+        if (!token) navigate('/login')
     })
 
-    return token ? (
+    return token && (
         <div>
             <h1>Welcome</h1>
 
             <button
                 onClick={() => {
                     window.localStorage.removeItem('token')
-                    navigate('/login')
                 }}
             >
                 Log out from {jwt_decode(token).login}
             </button>
-        </div>
-    ) : (
-        navigate('/login')
-    )
+        </div>)
 }
 
 

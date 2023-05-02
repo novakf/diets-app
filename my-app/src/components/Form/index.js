@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+import {Input, Button} from 'antd'
 
 const Form = ({title, handleClick}) => {
     const [email, setEmail] = useState('')
@@ -6,24 +8,33 @@ const Form = ({title, handleClick}) => {
 
     return (
         <div>
-            <input
+            <StyledInput
                 type='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder='email'
+                placeholder='логин'
             />
-            <input
+            <StyledInput
                 type='password'
                 value={pass}
                 onChange={(e) => setPass(e.target.value)}
-                placeholder='password'
+                placeholder='пароль'
             />
 
-            <button onClick={() => handleClick(email, pass)}>
+            <StyledButton onClick={() => handleClick(email, pass)}>
                 {title}
-            </button>
+            </StyledButton>
         </div>
     )
 }
+
+const StyledInput = styled(Input)`
+    margin-bottom: 10px;
+`
+
+const StyledButton = styled(Button)`
+    width: 200px;
+    
+`
 
 export default Form

@@ -1,10 +1,7 @@
 import Form from './Form'
-import { useDispatch } from 'react-redux'
-import { setUser } from '../store/slices/userSlice'
 import {useNavigate} from 'react-router-dom'
 
 const SignUp = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const handleRegister = (email, password) => {
@@ -32,7 +29,7 @@ const SignUp = () => {
 
     return (
         <Form
-            title='sign up'
+            title='Зарегистрироваться'
             handleClick={handleRegister}
         />
     )
