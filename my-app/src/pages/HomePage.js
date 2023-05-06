@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
+import Menu from '../components/SelectDiet/Menu'
 
 const HomePage = () => {
     const token = window.localStorage.getItem('token')
@@ -12,15 +13,11 @@ const HomePage = () => {
 
     return token && (
         <div>
-            <h1>Welcome</h1>
+            <h1>Привет, {jwt_decode(token).name}!</h1>
 
-            <button
-                onClick={() => {
-                    window.localStorage.removeItem('token')
-                }}
-            >
-                Log out from {jwt_decode(token).login}
-            </button>
+            <h2>Выбери рацион:</h2>
+
+            <Menu />
         </div>)
 }
 

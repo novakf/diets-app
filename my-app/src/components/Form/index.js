@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {Input, Button} from 'antd'
+import { Input, Button } from 'antd'
 
-const Form = ({title, handleClick}) => {
-    const [email, setEmail] = useState('')
+const Form = ({ title, handleClick }) => {
+    const [login, setLogin] = useState('')
     const [pass, setPass] = useState('')
+    const [name, setName] = useState('')
+    const [age, setAge] = useState('')
+    const [height, setHeight] = useState('')
+    const [weight, setWeight] = useState('')
 
-    return (
+    return (title === 'Войти') ? (
         <div>
             <StyledInput
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type='login'
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
                 placeholder='логин'
             />
             <StyledInput
@@ -21,7 +25,50 @@ const Form = ({title, handleClick}) => {
                 placeholder='пароль'
             />
 
-            <StyledButton onClick={() => handleClick(email, pass)}>
+            <StyledButton onClick={() => handleClick(login, pass)}>
+                {title}
+            </StyledButton>
+        </div>
+    ) : (
+        <div>
+            <StyledInput
+                type='login'
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
+                placeholder='логин'
+            />
+            <StyledInput
+                type='name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder='имя'
+            />
+            <StyledInput
+                type='age'
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder='возраст'
+            />
+            <StyledInput
+                type='height'
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                placeholder='рост'
+            />
+            <StyledInput
+                type='weight'
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder='вес'
+            />
+            <StyledInput
+                type='password'
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                placeholder='пароль'
+            />
+
+            <StyledButton onClick={() => handleClick(login, pass, name, age, height, weight)}>
                 {title}
             </StyledButton>
         </div>

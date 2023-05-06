@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table } from 'antd'
+import { Table, Space } from 'antd'
 
 const ProductPage = () => {
     const [products, setProducts] = useState(false);
@@ -15,9 +15,9 @@ const ProductPage = () => {
     const data = JSON.parse(products)
     for (let i = 0; i < data.length; i++)
         data[i].key = data[i].product_id
-        
 
-    console.log(data)        
+
+    console.log(data)
     const columns = [
         {
             title: 'ID',
@@ -53,6 +53,16 @@ const ProductPage = () => {
             title: 'Углеводы',
             dataIndex: 'carbs',
             key: 'carbs'
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            render: (_) => {
+                <Space>
+                    <a>Del</a>
+                </Space>
+
+            }
         }
     ];
 

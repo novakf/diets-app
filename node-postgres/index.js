@@ -78,6 +78,16 @@ app.delete('/products/:id', (req, res) => {
     })
 })
 
+app.get('/diets', (req, res) => {
+  model.getDiets()
+    .then(response => {
+      res.status(200).send(response)
+    })
+    .catch(error => {
+      res.status(500).send(error)
+    })
+})
+
 app.listen(port, (err) => {
   if (err) {
     return console.log(err)

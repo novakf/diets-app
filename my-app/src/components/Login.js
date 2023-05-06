@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const navigate = useNavigate()
 
-    const handleLogin = (email, password) => {
-        let login = email
+    const handleLogin = (login, password) => {
         fetch('http://localhost:3001/auth/login', {
             method: 'POST',
             headers: {

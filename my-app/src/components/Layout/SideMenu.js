@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
+import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import {
@@ -32,14 +33,18 @@ const App = () => {
                     <Link to="/products"></Link>
                 </Menu.Item>
 
-                <Menu.Item key="/login">
+                <StyledItem key="/login">
                     <LogoutOutlined/>
                     <span>Выход</span>
                     <Link to='/login' onClick={() => window.localStorage.removeItem('token')}></Link>
-                </Menu.Item>
+                </StyledItem>
             </Menu>
         </Layout.Sider>
     );
 };
+
+const StyledItem = styled(Menu.Item)`
+    background-color: transparent !important;
+`
 
 export default App;
