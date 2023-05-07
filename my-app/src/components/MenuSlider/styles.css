@@ -1,13 +1,16 @@
 .NextDay {
-    top: -378px !important;
+    position: absolute;
+    top: 1px !important;
     left: 80px;
 }
 
 .NextDish {
+    position: absolute;
     left: 420px;
-    top: -150px;
+    top: 120px;
 }
 
 .PrevDish {
-    top: 110px;
+    position: absolute;
+    top: 120px;
 }

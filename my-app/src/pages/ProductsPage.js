@@ -66,8 +66,6 @@ const ProductPage = () => {
         }
     ];
 
-
-
     return (
         <div>
             <Table dataSource={data} columns={columns} />;
