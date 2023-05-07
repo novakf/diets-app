@@ -13,7 +13,8 @@ const HomePage = () => {
 
     return token && (
         <div>
-            <h1>Привет, {jwt_decode(token).name}!</h1>
+            
+            <h1>Привет, {jwt_decode(token).name ? jwt_decode(token).name : 'Незнакомец'}!</h1>
 
             <h2>Выбери рацион:</h2>
 

@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios'
 import { Tabs } from "antd";
 import Content from "./Content";
 
 const Menu = () => {
-    return (
+    const [diets, setDiets] = useState('')
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/diets')
+            .then(res => {
+                setDiets(res.data)
+            })
+    }, [])
+
+
+
+    return diets && (
         <Tabs
             type="card"
             items={
-                new Array(3).fill(null).map((_, i) => {
-                    const id = String(i + 1);
+                new Array(diets.length).fill(null).map((_, id) => {
                     return {
-                        label: `Tab ${id}`,
+                        label: `${diets[id].type}`,
                         key: id,
-                        children: <Content id={id}/>,
+                        children: <Content id={id} diets={diets} />,
                     };
                 })}
         />
