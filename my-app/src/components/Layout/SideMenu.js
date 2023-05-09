@@ -14,7 +14,7 @@ const App = () => {
 
     const onCollapse = (collapsed) => setCollapsed(collapsed);
     return (
-        <Layout.Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+        <Layout.Sider theme="dark" collapsible collapsed={collapsed} onCollapse={onCollapse}>
             <div className="logo" />
             <Menu
                 theme="dark"

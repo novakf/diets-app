@@ -1,14 +1,16 @@
 import React, { memo } from "react";
 import styled from "styled-components";
 import SlickSlider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import { Button } from "antd";
-
+import './styles.css'
 
 export function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
-    <Button className="NextDish" style={{}} onClick={onClick}>
+    <Button
+      className="NextDay"
+      onClick={onClick}
+    >
       Next
     </Button>
   );
@@ -17,7 +19,9 @@ export function NextArrow(props) {
 export function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
-    <Button className="PrevDish" style={{}} onClick={onClick}>
+    <Button
+      onClick={onClick}
+    >
       Prev
     </Button>
   );
@@ -32,7 +36,6 @@ const MenuSlider = memo((props) => {
       slidesToScroll={1}
       infinite={false}
       draggable={false}
-      fade={true}
       nextArrow={<NextArrow />}
       prevArrow={<PrevArrow />}
       {...props}
@@ -46,33 +49,22 @@ const StyledMenuSlider = styled(SlickSlider)`
     .slick-track {
         position: relative;
         display: flex;
-        max-height: 300px;
-        width: 300px !important;
-        margin: 0px 0px 0px 0px !important;
-        padding: 20px 40px;
+        max-height: 450px;
+        width: 500px !important;
+        
+        padding: 0px 0px 0px 5px;
         flex-direction: column;
         flex-wrap: wrap;
-        align-content: flex-start;
     }
     .slick-slider {
-        box-shadow: none !important
-        display: block;
-        height: 500px;
+        height: 100%;
         width: 300px;
-        padding: 8px 0px;
-        margin-right: 60px;
     }
-    .slick-list {
-        width: 350px;
-        margin-left: 66px;
-    }
-    .slick-slide {
-      
-    }
-`;
 
-const Next = styled(Button)`
-  margin-botto: 50px;
+    .slick-list {
+        width: 500px;
+        height: 300px;
+    }
 `;
 
 export default MenuSlider;

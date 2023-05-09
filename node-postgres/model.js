@@ -195,16 +195,84 @@ export const getDiets = () => {
             array[i].day1_id[key] = await selectDishes(array[i].day1_id[key]);
           }
           array[i].day2_id = await selectDays(array[i].day2_id);
-          for (let key in array[i].day1_id) {
+          for (let key in array[i].day2_id) {
             array[i].day2_id[key] = await selectDishes(array[i].day2_id[key]);
           }
           array[i].day3_id = await selectDays(array[i].day3_id);
-          for (let key in array[i].day1_id) {
+          for (let key in array[i].day3_id) {
             array[i].day3_id[key] = await selectDishes(array[i].day3_id[key]);
           }
         }
         resolve(array);
       }
     });
+  });
+};
+
+export const getStats = (id) => {
+  const user_id = id;
+
+  async function selectDiets(id) {
+    try {
+      const res = await pool.query(
+        "SELECT diet_id, type FROM diets WHERE diet_id = $1",
+        [id]
+      );
+      return res.rows[0];
+    } catch (err) {
+      return err.stack;
+    }
+  }
+
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      "SELECT * from stats WHERE client_id=$1",
+      [user_id],
+      async (error, results) => {
+        if (error) {
+          reject(error);
+          console.log(error);
+        } else {
+          const array = results.rows;
+          if (array[0]) array[0].diet_id = await selectDiets(array[0].diet_id);
+          resolve(array);
+        }
+      }
+    );
+  });
+};
+
+export const setStats = (body) => {
+  const { user_id, diet_id } = body;
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      "INSERT INTO stats(client_id, diet_id, start_date) VALUES($1, $2, CURRENT_DATE)",
+      [user_id, diet_id],
+      (error, results) => {
+        if (error) {
+          reject("Вы уже выбрали рацион");
+          console.log(error);
+        }
+        resolve("Рацион сохранен");
+      }
+    );
+  });
+};
+
+export const deleteStats = (id) => {
+  const user_id = id;
+
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      "DELETE from stats WHERE client_id=$1",
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+          console.log(error);
+        }
+        resolve("Рацион завершен!");
+      }
+    );
   });
 };
