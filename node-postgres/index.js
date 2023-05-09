@@ -6,7 +6,7 @@ import * as model from "./model.js";
 const app = express();
 const port = 3001;
 
-//почитать про await переделать в 2 строчки
+//почитать про await, переделать в 2 строчки
 //добавить одельно обработчик ошибок в express
 app.use(express.json());
 app.use(function (req, res, next) {

@@ -12,7 +12,6 @@ const Menu = ({ updateStats, diets }) => {
     () =>
       new Array(diets.length).fill(null).map((_, id) => {
         let label = diets[id].type;
-
         return {
           label: label,
           key: id,
@@ -34,7 +33,6 @@ const Menu = ({ updateStats, diets }) => {
     diets && (
       <Tabs
         type="card"
-        onTabClick={loader}
         destroyInactiveTabPane={true}
         items={items}
       />

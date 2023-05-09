@@ -6,9 +6,11 @@ import DishSlider from "../HomeSliders/DishSlider";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { Button, Spin, Table, Tag } from "antd";
 import jwtDecode from "jwt-decode";
+import { message } from "antd";
 
 const Content = ({ delDiet, updateStats, id, diets }) => {
   const [status, setStatus] = useState("");
+  const [messageApi, contextHolder] = message.useMessage()
 
   const data = [
     {
@@ -69,96 +71,94 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
         return response.text();
       })
       .then((data) => {
-        alert(data);
+        message.open({type: "success", content: data});
       });
-    updateStats();
+    updateStats && updateStats();
   }
 
   return (
     diets && (
       <div>
-        <div>
-          {console.log(diets[id].day1_id)}
-          <MenuSlider>
-            <div>
-              <Day>День 1</Day>
-              <DishSlider>
-                {Object.values(diets[id].day1_id).map((dish) => {
-                  return (
-                    <Dish key={dish.dish_name}>
-                      <Name>{dish.dish_name}</Name>
-                      {dish.photo ? (
-                        <StyledImg src={dish.photo} alt="new" />
-                      ) : (
-                        <StyledImg
-                          src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
-                          alt="new"
-                        />
-                      )}
-                    </Dish>
-                  );
-                })}
-              </DishSlider>
-            </div>
-            <div>
-              <Day>День 2</Day>
-              <DishSlider>
-                {Object.values(diets[id].day2_id).map((dish) => {
-                  return (
-                    <Dish key={dish.dish_name}>
-                      <Name>{dish.dish_name}</Name>
-                      {dish.photo ? (
-                        <img src={dish.photo} alt="new" />
-                      ) : (
-                        <StyledImg
-                          src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
-                          alt="new"
-                        />
-                      )}
-                    </Dish>
-                  );
-                })}
-              </DishSlider>
-            </div>
-            <div>
-              <Day>День 3</Day>
-              <DishSlider>
-                {Object.values(diets[id].day3_id).map((dish) => {
-                  return (
-                    <Dish key={dish.dish_name}>
-                      <Name>{dish.dish_name}</Name>
-                      {dish.photo ? (
-                        <img src={dish.photo} alt="new" />
-                      ) : (
-                        <StyledImg
-                          src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
-                          alt="new"
-                        />
-                      )}
-                    </Dish>
-                  );
-                })}
-              </DishSlider>
-            </div>
-          </MenuSlider>
-          <Info className="info">
-            <STable
-              bordered
-              pagination={false}
-              dataSource={data}
-              columns={columns}
-            />
-            {!delDiet ? (
-              <SButton onClick={setStats} type="primary" size="large">
-                Выбрать
-              </SButton>
-            ) : (
-              <SButton onClick={delDiet} type="primary" size="large">
-                Завершить рацион
-              </SButton>
-            )}
-          </Info>
-        </div>
+        {contextHolder}
+        <MenuSlider>
+          <div>
+            <Day>День 1</Day>
+            <DishSlider>
+              {Object.values(diets[id].day1_id).map((dish) => {
+                return (
+                  <Dish key={dish.dish_name}>
+                    <Title>{dish.dish_name}</Title>
+                    {dish.photo ? (
+                      <StyledImg src={dish.photo} alt="new" />
+                    ) : (
+                      <StyledImg
+                        src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
+                        alt="new"
+                      />
+                    )}
+                  </Dish>
+                );
+              })}
+            </DishSlider>
+          </div>
+          <div>
+            <Day>День 2</Day>
+            <DishSlider>
+              {Object.values(diets[id].day2_id).map((dish) => {
+                return (
+                  <Dish key={dish.dish_name}>
+                    <Title>{dish.dish_name}</Title>
+                    {dish.photo ? (
+                      <StyledImg src={dish.photo} alt="new" />
+                    ) : (
+                      <StyledImg
+                        src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
+                        alt="new"
+                      />
+                    )}
+                  </Dish>
+                );
+              })}
+            </DishSlider>
+          </div>
+          <div>
+            <Day>День 3</Day>
+            <DishSlider>
+              {Object.values(diets[id].day3_id).map((dish) => {
+                return (
+                  <Dish key={dish.dish_name}>
+                    <Title>{dish.dish_name}</Title>
+                    {dish.photo ? (
+                      <StyledImg src={dish.photo} alt="new" />
+                    ) : (
+                      <StyledImg
+                        src="https://drive.google.com/uc?export=view&id=1OyNn_HUo0Vz17MWhl7jM71_uLFIkgIcu"
+                        alt="new"
+                      />
+                    )}
+                  </Dish>
+                );
+              })}
+            </DishSlider>
+          </div>
+        </MenuSlider>
+        <Info classTitle="info">
+          <STable
+            bordered
+            pagination={false}
+            dataSource={data}
+            columns={columns}
+          />
+          {!delDiet ? (
+            <SButton onClick={setStats} type="primary" size="large">
+              Выбрать
+            </SButton>
+          ) : (
+            <SButton onClick={delDiet} type="primary" size="large">
+              Завершить рацион
+            </SButton>
+          )}
+        </Info>
       </div>
     )
   );
@@ -192,7 +192,7 @@ const StyledImg = styled.img`
   width: 300px;
 `;
 
-const Name = styled.div`
+const Title = styled.div`
   font-size: 18px;
   margin-left: 20px;
 `;

@@ -68,7 +68,7 @@ const ProductPage = () => {
 
     return (
         <div>
-            <Table dataSource={data} columns={columns} />;
+            <Table dataSource={data} columns={columns} pagination={false}/>
         </div>
 
     )

@@ -7,6 +7,7 @@ import Content from "../components/SelectDiet/Content";
 import { Button } from "antd";
 import { style } from "@mui/system";
 import styled from "styled-components";
+import { message } from "antd";
 
 const HomePage = () => {
   const token = window.localStorage.getItem("token");
@@ -19,7 +20,10 @@ const HomePage = () => {
     if (!token) navigate("/login");
   });
 
-  const id = jwtDecode(token).id;
+  const [messageApi, contextHolder] = message.useMessage();
+
+  let id = "";
+  if (token) id = jwtDecode(token).id;
 
   useEffect(() => {
     axios.get("http://localhost:3001/diets").then((res) => {
@@ -47,7 +51,7 @@ const HomePage = () => {
         return response.text();
       })
       .then((data) => {
-        alert(data);
+        messageApi.open({ type: "success", content: data });
         setStats("");
       });
   }
@@ -55,17 +59,20 @@ const HomePage = () => {
   return (
     token && (
       <div>
+        {contextHolder}
         <h1>
           Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
           !
         </h1>
 
-        {console.log(status)}
-
         {stats[0] ? (
           <div>
             <h2>Твой рацион: {stats[0].diet_id.type}</h2>
-            <Content delDiet={deleteDiet} id={id} diets={diets} />
+            <Content
+              delDiet={deleteDiet}
+              id={stats[0].diet_id.diet_id}
+              diets={diets}
+            />
           </div>
         ) : (
           <div>
