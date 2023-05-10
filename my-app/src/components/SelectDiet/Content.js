@@ -12,15 +12,24 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
   const [status, setStatus] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
 
-  const data = [
-    {
-      key: id,
-      calories: 1500,
-      protein: 50,
-      fats: 70,
-      carbs: 100,
-    },
-  ];
+  console.log(diets);
+
+  let data = [];
+
+  if (id === 0)
+    data = [
+      {
+        key: id,
+        calories: 2500,
+        protein: 50,
+        fats: 70,
+        carbs: 100,
+      },
+    ];
+  else if (id === 1)
+    data = [{ key: id, calories: 2000, protein: 50, fats: 70, carbs: 100 }];
+  else if (id === 2)
+    data = [{ key: id, calories: 1500, protein: 50, fats: 70, carbs: 100 }];
 
   const columns = [
     {
@@ -30,7 +39,7 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
       render: (tag) => {
         let color;
         if (tag < 2000) color = "green";
-        else if ((tag = 2000)) color = "gold";
+        else if (tag === 2000) color = "gold";
         else color = "red";
 
         return (
