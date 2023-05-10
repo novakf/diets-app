@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Table, Space, Button, Input } from "antd";
 
-const ProductPage = () => {
-  const [products, setProducts] = useState(false);
+const DishesPage = () => {
+  const [dishes, setDishes] = useState(false);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
-  fetch("http://localhost:3001")
+  fetch("http://localhost:3001/dishes")
     .then((response) => {
       return response.text();
     })
     .then((data) => {
-      setProducts(data);
+      setDishes(data);
     });
 
-  const data = JSON.parse(products);
-  for (let i = 0; i < data.length; i++) data[i].key = data[i].product_id;
+  const data = JSON.parse(dishes);
+  for (let i = 0; i < data.length; i++) data[i].key = data[i].dish_id;
 
-  if (data) data.sort((a, b) => a.product_id - b.product_id);
+  if (data) data.sort((a, b) => a.dish_id - b.dish_id);
 
   const [res, setRes] = useState(data);
 
@@ -40,7 +40,7 @@ const ProductPage = () => {
   const handleSearch = (e) => {
     const results = data.filter((prod) => {
       if (e.target.value === "") return prod;
-      return prod.product_name
+      return prod.dish_name
         .toLowerCase()
         .includes(e.target.value.toLowerCase());
     });
@@ -50,14 +50,14 @@ const ProductPage = () => {
   const columns = [
     {
       title: "ID",
-      dataIndex: "product_id",
-      key: "product_id",
+      dataIndex: "dish_id",
+      key: "dish_id",
       width: "50px",
     },
     {
       title: "Название",
-      dataIndex: "product_name",
-      key: "product_name",
+      dataIndex: "dish_name",
+      key: "dish_name",
       onFilter: (value, record) => {
         console.log("rec", record);
         record.dataIndex.toString().toLowerCase().includes(value.toLowerCase());
@@ -70,27 +70,13 @@ const ProductPage = () => {
       key: "category",
       filters: [
         { text: "Каши", value: "Каши" },
-        { text: "Мучное", value: "Мучное" },
-        { text: "Яйца", value: "Яйца" },
-        { text: "Кисломолочные", value: "Кисломолочные" },
-        { text: "Мясо", value: "Мясо" },
-        { text: "Ягоды", value: "Ягоды" },
-        { text: "Фрукты", value: "Фрукты" },
-        { text: "Овощи", value: "Овощи" },
+        { text: "Первое", value: "Первое" },
+        { text: "Второе", value: "Второе" },
+        { text: "Напитки", value: "Напитки" },
+        { text: "Салаты", value: "Салаты" },
       ],
       filteredValue: filteredInfo.category || null,
       onFilter: (value, record) => record.category.includes(value),
-      ellipsis: true,
-    },
-    {
-      title: "Цена",
-      dataIndex: "price",
-      key: "price",
-      sorter: {
-        compare: (a, b) => a.price - b.price,
-        multiple: 4,
-      },
-      sortOrder: sortedInfo.columnKey === "price" ? sortedInfo.order : null,
       ellipsis: true,
     },
     {
@@ -126,16 +112,80 @@ const ProductPage = () => {
       sortOrder: sortedInfo.columnKey === "carbs" ? sortedInfo.order : null,
       ellipsis: true,
     },
+    {
+      title: "Фото",
+      dataIndex: "photo",
+      key: "photo",
+      render: (photo) => (
+        <img style={{ width: "100px" }} alt={photo} src={photo} />
+      ),
+    },
     //    {
     //      title: "Actions",
     //      key: "actions",
     //      render: (_) => {
-    //        <Space>
+    //       <Space>
     //          <a>Del</a>
     //        </Space>;
     //      },
     //    },
   ];
+
+  const expandedRow = (row) => {
+    console.log(row);
+
+    const columns = [
+      {
+        title: "Продукт",
+        dataIndex: "product_name",
+        key: "product_name",
+      },
+      {
+        title: "Категория",
+        dataIndex: "category",
+        key: "category",
+      },
+      {
+        title: "Цена",
+        dataIndex: "price",
+        key: "price",
+      },
+      {
+        title: "Белки",
+        dataIndex: "protein",
+        key: "protein",
+      },
+      {
+        title: "Жиры",
+        dataIndex: "fats",
+        key: "fats",
+      },
+      {
+        title: "Углеводы",
+        dataIndex: "carbs",
+        key: "carbs",
+      },
+      //      {
+      //        title: "Actions",
+      //        key: "actions",
+      //        render: (_) => {
+      //          <Space>
+      //            <a>Del</a>
+      //          </Space>;
+      //        },
+      //      },
+    ];
+
+    console.log(data);
+
+    const dataSource = data[row.key - 1].products;
+    for (let i = 0; i < dataSource.length; i++)
+      dataSource[i].key = dataSource[i].product_id;
+
+    return (
+      <Table columns={columns} dataSource={dataSource} pagination={false} />
+    );
+  };
 
   return (
     data && (
@@ -147,6 +197,7 @@ const ProductPage = () => {
           onChange={handleSearch}
         />
         <Table
+          expandedRowRender={expandedRow}
           dataSource={res ? res : data}
           columns={columns}
           pagination={false}
@@ -162,4 +213,4 @@ const SButton = styled(Button)`
   margin-right: 10px;
 `;
 
-export default ProductPage;
+export default DishesPage;

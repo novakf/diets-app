@@ -276,3 +276,49 @@ export const deleteStats = (id) => {
     );
   });
 };
+
+export const getDishes = () => {
+  async function selectProductsId(id) {
+    try {
+      const res = await pool.query(
+        "SELECT product_id FROM product_dish WHERE dish_id = $1",
+        [id]
+      );
+      return res.rows;
+    } catch (err) {
+      return err.stack;
+    }
+  }
+
+  async function selectProductsInfo(id) {
+    try {
+      const res = await pool.query(
+        "SELECT * FROM products WHERE product_id = $1",
+        [id]
+      );
+      return res.rows[0];
+    } catch (err) {
+      return err.stack;
+    }
+  }
+
+  return new Promise(function (resolve, reject) {
+    pool.query("SELECT * FROM dishes", async (error, results) => {
+      if (error) {
+        reject(error);
+        console.log(error);
+      } else {
+        const array = results.rows;
+        for (let i = 0; i < array.length; i++) {
+          array[i].products = await selectProductsId(array[i].dish_id);
+          for (let j = 0; j < array[i].products.length; j++) {
+            array[i].products[j] = await selectProductsInfo(
+              array[i].products[j].product_id
+            );
+          }
+        }
+        resolve(array);
+      }
+    });
+  });
+};

@@ -70,7 +70,7 @@ const HomePage = () => {
             <h2>Твой рацион: {stats[0].diet_id.type}</h2>
             <Content
               delDiet={deleteDiet}
-              id={stats[0].diet_id.diet_id}
+              id={stats[0].diet_id.diet_id - 1}
               diets={diets}
             />
           </div>

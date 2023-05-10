@@ -10,7 +10,7 @@ import { message } from "antd";
 
 const Content = ({ delDiet, updateStats, id, diets }) => {
   const [status, setStatus] = useState("");
-  const [messageApi, contextHolder] = message.useMessage()
+  const [messageApi, contextHolder] = message.useMessage();
 
   const data = [
     {
@@ -71,7 +71,7 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
         return response.text();
       })
       .then((data) => {
-        message.open({type: "success", content: data});
+        message.open({ type: "success", content: data });
       });
     updateStats && updateStats();
   }

@@ -133,6 +133,16 @@ app.delete("/stats/:id", (req, res) => {
     });
 });
 
+app.get("/dishes", (req, res) => {
+  model
+    .getDishes()
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
 app.listen(port, (err) => {
   if (err) {
     return console.log(err);
