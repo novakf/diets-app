@@ -322,3 +322,35 @@ export const getDishes = () => {
     });
   });
 };
+
+export const createDish = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { dish_name, category, protein, fats, carbs, calories, photo } = body;
+    pool.query(
+      "INSERT INTO dishes(dish_name, category, protein, fats, carbs, calories, photo) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [dish_name, category, protein, fats, carbs, calories, photo],
+      (error, results) => {
+        if (error) {
+          reject(error);
+          console.log(error);
+        }
+        resolve(`A new Dish has been added: ${body.dish_name}`);
+      }
+    );
+  });
+};
+
+export const deleteDish = (id) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      "DELETE FROM dishes WHERE dish_id = $1",
+      [id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(`Dish deleted with ID: ${id}`);
+      }
+    );
+  });
+};

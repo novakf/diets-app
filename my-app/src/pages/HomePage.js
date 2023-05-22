@@ -22,8 +22,20 @@ const HomePage = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  let id = "";
-  if (token) id = jwtDecode(token).id;
+  let id = "",
+    age = 0,
+    height = 0,
+    weight = 0,
+    cal = 0;
+
+  if (token) {
+    id = jwtDecode(token).id;
+    age = jwtDecode(token).age;
+    height = jwtDecode(token).height;
+    weight = jwtDecode(token).weight;
+  }
+
+  cal = 10 * weight + 6.25 * height - 5 * age + 5;
 
   useEffect(() => {
     axios.get("http://localhost:3001/diets").then((res) => {
@@ -64,7 +76,13 @@ const HomePage = () => {
           Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
           !
         </h1>
-
+        {console.log(cal)}
+        <h2>Ваш базовый метаболизм (основной обмен): {cal} ккал/сутки </h2>
+        <div>
+          Это калории, которые сжигаются, когда вы находитесь в покое, и энергия
+          тратится на обеспечение процессов дыхания, кровообращения, поддержание
+          температуры тела и т.д.
+        </div>
         {stats[0] ? (
           <div>
             <h2>Твой рацион: {stats[0].diet_id.type}</h2>

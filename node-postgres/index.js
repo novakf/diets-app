@@ -143,6 +143,29 @@ app.get("/dishes", (req, res) => {
       res.status(500).send(error);
     });
 });
+
+app.post("/dishes", (req, res) => {
+  model
+    .createDish(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.delete("/dishes/:id", (req, res) => {
+  model
+    .deleteDish(req.params.id)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.listen(port, (err) => {
   if (err) {
     return console.log(err);
