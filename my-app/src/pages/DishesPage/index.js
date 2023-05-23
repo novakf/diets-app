@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Table, Space, Button, Input, Skeleton } from "antd";
+import {
+  Table,
+  Space,
+  Form,
+  Button,
+  Input,
+  Skeleton,
+  Popconfirm,
+  Modal,
+} from "antd";
 import jwtDecode from "jwt-decode";
+import { PlusSquareOutlined } from "@ant-design/icons";
+import { message } from "antd";
+import ProductsRow from "./ProductsRow";
+import DishForm from "./DishForm";
 
 const DishesPage = () => {
   const [dishes, setDishes] = useState(false);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
-  const [editMode, setEditMode] = useState(false);
+  const [update, setUpdate] = useState(false);
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const token = window.localStorage.getItem("token");
   let login;
@@ -18,6 +33,7 @@ const DishesPage = () => {
       return response.text();
     })
     .then((data) => {
+      console.log(1);
       setDishes(data);
     });
 
@@ -29,7 +45,8 @@ const DishesPage = () => {
         return response.text();
       })
       .then((data) => {
-        alert(data);
+        messageApi.open({ type: "success", content: data });
+        setUpdate(!update);
       });
   }
 
@@ -61,7 +78,12 @@ const DishesPage = () => {
         return response.text();
       })
       .then((data) => {
-        alert(data);
+        messageApi.open({ type: "success", content: data });
+        setUpdate(!update);
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
       });
   }
 
@@ -188,12 +210,20 @@ const DishesPage = () => {
               ),
           },
           {
-            title: "Actions",
+            title: "",
             dataIndex: "",
             key: "actions",
             render: (dish) => (
-              <Button onClick={() => deleteDish(dish.dish_id)}>Удалить</Button>
+              <Popconfirm
+                title="Уверены?"
+                onConfirm={() => deleteDish(dish.dish_id)}
+                okText="Да"
+                cancelText="Отмена"
+              >
+                <Button>Удалить</Button>
+              </Popconfirm>
             ),
+            width: "120px",
           },
         ]
       : [
@@ -277,76 +307,38 @@ const DishesPage = () => {
           },
         ];
 
-  const expandedRow = (row) => {
-    console.log(row);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const columns = [
-      {
-        title: "Продукт",
-        dataIndex: "product_name",
-        key: "product_name",
-      },
-      {
-        title: "Категория",
-        dataIndex: "category",
-        key: "category",
-      },
-      {
-        title: "Цена",
-        dataIndex: "price",
-        key: "price",
-      },
-      {
-        title: "Белки",
-        dataIndex: "protein",
-        key: "protein",
-      },
-      {
-        title: "Жиры",
-        dataIndex: "fats",
-        key: "fats",
-      },
-      {
-        title: "Углеводы",
-        dataIndex: "carbs",
-        key: "carbs",
-      },
-      //      {
-      //        title: "Actions",
-      //        key: "actions",
-      //        render: (_) => {
-      //          <Space>
-      //            <a>Del</a>
-      //          </Space>;
-      //        },
-      //      },
-    ];
-
-    console.log(data);
-
-    const dataSource = data[row.key - 1]?.products;
-    for (let i = 0; i < dataSource?.length; i++)
-      dataSource[i].key = dataSource[i]?.product_id;
-
-    return (
-      <Table columns={columns} dataSource={dataSource} pagination={false} />
-    );
+  const showModal = () => {
+    setIsModalOpen(true);
   };
 
   return (
     data && (
       <div>
+        {contextHolder}
         <SButton onClick={clearFilters}>Очистить фильтры</SButton>
         <SButton onClick={clearAll}>Очистить фильтры и сортировки</SButton>
-        <DButton type="primary" onClick={createDish}>
-          Новое блюдо
-        </DButton>
+        {login === "admin" && (
+          <DButton
+            type="primary"
+            onClick={showModal}
+            icon={<PlusSquareOutlined />}
+          >
+            Новое блюдо
+          </DButton>
+        )}
+
+        <DishForm open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
         <Input
           placeholder="Поиск по названию продукта"
           onChange={handleSearch}
         />
         <Table
-          expandedRowRender={expandedRow}
+          expandedRowRender={(row) => (
+            <ProductsRow row={row} login={login} data={data} />
+          )}
           dataSource={res ? res : data}
           columns={columns}
           pagination={false}
@@ -364,7 +356,7 @@ const SButton = styled(Button)`
 
 const DButton = styled(Button)`
   position: absolute;
-  right: 16px;
+  right: 30px;
   width: 150px;
 `;
 

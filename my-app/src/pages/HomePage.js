@@ -4,10 +4,13 @@ import jwtDecode from "jwt-decode";
 import Menu from "../components/SelectDiet/Menu";
 import axios from "axios";
 import Content from "../components/SelectDiet/Content";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
 import { style } from "@mui/system";
 import styled from "styled-components";
-import { message } from "antd";
+import { message, Card } from "antd";
+import UserInfo from "../components/UserInfo";
+
+const { Text } = Typography;
 
 const HomePage = () => {
   const token = window.localStorage.getItem("token");
@@ -72,17 +75,23 @@ const HomePage = () => {
     token && (
       <div>
         {contextHolder}
+        <UserInfo info={jwtDecode(token)} />
         <h1>
           Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
           !
         </h1>
         {console.log(cal)}
-        <h2>Ваш базовый метаболизм (основной обмен): {cal} ккал/сутки </h2>
-        <div>
-          Это калории, которые сжигаются, когда вы находитесь в покое, и энергия
-          тратится на обеспечение процессов дыхания, кровообращения, поддержание
-          температуры тела и т.д.
-        </div>
+        <Card
+          title={`Ваш базовый метаболизм (основной обмен): ${cal} ккал/сутки`}
+          bordered={false}
+          style={{ width: "800px" }}
+        >
+          <Def>
+            * это калории, которые сжигаются, когда вы находитесь в покое, и
+            энергия тратится на обеспечение процессов дыхания, кровообращения,
+            поддержание температуры тела и т.д.
+          </Def>
+        </Card>
         {stats[0] ? (
           <div>
             <h2>Твой рацион: {stats[0].diet_id.type}</h2>
@@ -105,6 +114,11 @@ const HomePage = () => {
 
 const SButton = styled(Button)`
   margin-top: 50px;
+`;
+
+const Def = styled.div`
+  margin-top: -15px;
+  width: 600px;
 `;
 
 export default HomePage;

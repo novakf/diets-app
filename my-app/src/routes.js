@@ -3,9 +3,9 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
-import AdminProductsPage from "./pages/AdminProductsPage"
+import AdminProductsPage from "./pages/AdminProductsPage";
 import DishesPage from "./pages/DishesPage";
-import AdminDishesPage from "./pages/AdminDishesPage"
+import AdminDishesPage from "./pages/AdminDishesPage";
 
 export const adminRoutes = [
   {

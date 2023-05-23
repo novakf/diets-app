@@ -334,7 +334,7 @@ export const createDish = (body) => {
           reject(error);
           console.log(error);
         }
-        resolve(`A new Dish has been added: ${body.dish_name}`);
+        resolve(`Добавлено блюдо: ${body.dish_name}`);
       }
     );
   });
@@ -349,7 +349,7 @@ export const deleteDish = (id) => {
         if (error) {
           reject(error);
         }
-        resolve(`Dish deleted with ID: ${id}`);
+        resolve(`Блюдо удалено`);
       }
     );
   });
