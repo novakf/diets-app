@@ -126,34 +126,134 @@ export const getProducts = () => {
 
 export const createProduct = (body) => {
   return new Promise(function (resolve, reject) {
-    const { name, category } = body;
+    const {
+      product_id,
+      product_name,
+      category,
+      price,
+      protein,
+      fats,
+      carbs,
+      dish_id,
+    } = body;
     pool.query(
-      "INSERT INTO products (product_name, category) VALUES ($1, $2)",
-      [name, category],
+      "INSERT INTO products (product_id, product_name, category, price, protein, fats, carbs) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [product_id, product_name, category, price, protein, fats, carbs],
       (error, results) => {
         if (error) {
           reject(error);
           console.log(error);
         }
-        resolve(`A new Product has been added: ${body.name}`);
+        if (results) {
+          pool.query(
+            "INSERT INTO product_dish(product_id, dish_id) VALUES($1, $2)",
+            [product_id, dish_id],
+            (error, results) => {
+              if (error) {
+                console.log(error);
+              }
+              resolve(`Добавлен продукт: ${body.product_name}`);
+            }
+          );
+        }
       }
     );
   });
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = (key, body) => {
   return new Promise(function (resolve, reject) {
-    const product_id = id;
+    const product_id = key;
+    const dish_id = body.dish_id;
     pool.query(
-      "DELETE FROM products WHERE product_id = $1",
-      [product_id],
+      "DELETE FROM product_dish WHERE product_id = $1 and dish_id = $2",
+      [product_id, dish_id],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve(`Product deleted with ID: ${id}`);
+        resolve(`Удален продукт с ID: ${product_id}`);
       }
     );
+  });
+};
+
+export const changeProduct = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { property, change, product_id } = body;
+    console.log();
+    if (property === "product_name")
+      pool.query(
+        "UPDATE products SET product_name = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Название`);
+        }
+      );
+    if (property === "category")
+      pool.query(
+        "UPDATE products SET category = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Категория`);
+        }
+      );
+    if (property === "price")
+      pool.query(
+        "UPDATE products SET price = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Цена`);
+        }
+      );
+    if (property === "protein")
+      pool.query(
+        "UPDATE products SET protein = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Белки`);
+        }
+      );
+    if (property === "fats")
+      pool.query(
+        "UPDATE products SET fats = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Жиры`);
+        }
+      );
+    if (property === "carbs")
+      pool.query(
+        "UPDATE products SET carbs = $1 WHERE product_id = $2",
+        [change, product_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Продукт изменен: Углеводы`);
+        }
+      );
   });
 };
 

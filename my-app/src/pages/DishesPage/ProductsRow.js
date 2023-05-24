@@ -1,6 +1,8 @@
 import { Button, Form, Input, Popconfirm, Table, Space } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./index.css";
+import axios from "axios";
+import { message } from "antd";
 
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
@@ -22,7 +24,8 @@ const EditableCell = ({
   handleSave,
   ...restProps
 }) => {
-  console.log(record);
+  const [messageApi, contextHolder] = message.useMessage();
+  //console.log(record);
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
   const form = useContext(EditableContext);
@@ -45,6 +48,29 @@ const EditableCell = ({
         ...record,
         ...values,
       });
+      console.log("record", record);
+      console.log("values", values);
+
+      let property = Object.keys(values)[0];
+      let change = Object.values(values)[0];
+      let product_id = record.product_id;
+      fetch("http://localhost:3001/products", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          property,
+          change,
+          product_id,
+        }),
+      })
+        .then((response) => {
+          return response.text();
+        })
+        .then((data) => {
+          messageApi.open({ type: "success", content: data });
+        });
     } catch (errInfo) {
       console.log("Save failed:", errInfo);
     }
@@ -78,10 +104,16 @@ const EditableCell = ({
       </div>
     );
   }
-  return <td {...restProps}>{childNode}</td>;
+  return (
+    <td {...restProps}>
+      {contextHolder}
+      {childNode}
+    </td>
+  );
 };
 
 const ProductsRow = ({ row, login, data }) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const dataS = data[row.key - 1]?.products;
   for (let i = 0; i < dataS?.length; i++) {
     dataS[i].key = dataS[i].product_id;
@@ -89,9 +121,37 @@ const ProductsRow = ({ row, login, data }) => {
   const [dataSource, setDataSource] = useState(dataS);
   const [count, setCount] = useState(dataS ? dataS.length : 0);
 
+  const [products, setProducts] = useState({});
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/").then((res) => {
+      res.data.sort((a, b) => (a.product_id > b.product_id ? 1 : -1));
+      setProducts(res.data);
+    });
+  }, []);
+
+  console.log(products);
+
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
+
+    const dish_id = row.dish_id;
+    console.log(dish_id);
+
+    fetch(`http://localhost:3001/products/${key}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8", // Indicates the content
+      },
+      body: JSON.stringify({ dish_id }),
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        messageApi.open({ type: "success", content: data });
+      });
   };
 
   const defaultColumns =
@@ -145,10 +205,10 @@ const ProductsRow = ({ row, login, data }) => {
             render: (_, record) =>
               dataSource.length >= 1 ? (
                 <Popconfirm
-                  title="Sure to delete?"
+                  title="Уверены?"
                   onConfirm={() => handleDelete(record.key)}
                 >
-                  <a>Delete</a>
+                  <a>Удалить</a>
                 </Popconfirm>
               ) : null,
             width: "5%",
@@ -189,7 +249,7 @@ const ProductsRow = ({ row, login, data }) => {
 
   const handleAdd = () => {
     const newData = {
-      product_id: "",
+      product_id: products[products.length - 1].product_id + 1,
       product_name: "*",
       category: "*",
       price: "0",
@@ -199,10 +259,28 @@ const ProductsRow = ({ row, login, data }) => {
       key: count,
     };
 
+    newData.dish_id = row.dish_id;
+
+    console.log(newData);
+
+    fetch("http://localhost:3001/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newData),
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((data) => {
+        messageApi.open({ type: "success", content: data });
+      });
+
     if (dataSource) setDataSource([...dataSource, newData]);
     else setDataSource([newData]);
     setCount(count + 1);
-    console.log(dataSource);
+    //console.log(dataSource);
   };
 
   const handleSave = (row) => {
@@ -239,15 +317,18 @@ const ProductsRow = ({ row, login, data }) => {
   });
   return (
     <div>
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        Добавить продукт
-      </Button>
+      {contextHolder}
+      {login === "admin" && (
+        <Button
+          onClick={handleAdd}
+          type="primary"
+          style={{
+            marginBottom: 16,
+          }}
+        >
+          Добавить продукт
+        </Button>
+      )}
       <Table
         components={components}
         rowClassName={() => "editable-row"}

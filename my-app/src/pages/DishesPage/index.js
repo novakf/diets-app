@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import {
   Table,
@@ -21,12 +22,19 @@ const DishesPage = () => {
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [update, setUpdate] = useState(false);
-
+  const [products, setProducts] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
 
   const token = window.localStorage.getItem("token");
   let login;
   if (token) login = jwtDecode(token).login;
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/").then((res) => {
+      res.data.sort((a, b) => (a.product_id > b.product_id ? 1 : -1));
+      setProducts(res.data);
+    });
+  }, []);
 
   fetch("http://localhost:3001/dishes")
     .then((response) => {
@@ -47,43 +55,6 @@ const DishesPage = () => {
       .then((data) => {
         messageApi.open({ type: "success", content: data });
         setUpdate(!update);
-      });
-  }
-
-  function createDish() {
-    let dish_name = prompt("Enter dish name");
-    let category = prompt("Enter dish category");
-    let protein = prompt("protein");
-    let fats = prompt("fats");
-    let carbs = prompt("carbs");
-    let calories = prompt("calories");
-    let photo = prompt("photo");
-
-    fetch("http://localhost:3001/dishes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        dish_name,
-        category,
-        protein,
-        fats,
-        carbs,
-        calories,
-        photo,
-      }),
-    })
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        messageApi.open({ type: "success", content: data });
-        setUpdate(!update);
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "smooth",
-        });
       });
   }
 
@@ -337,7 +308,12 @@ const DishesPage = () => {
         />
         <Table
           expandedRowRender={(row) => (
-            <ProductsRow row={row} login={login} data={data} />
+            <ProductsRow
+              row={row}
+              login={login}
+              data={data}
+              products={products}
+            />
           )}
           dataSource={res ? res : data}
           columns={columns}

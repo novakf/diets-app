@@ -78,9 +78,21 @@ app.post("/products", (req, res) => {
     });
 });
 
-app.delete("/products/:id", (req, res) => {
+app.put("/products", (req, res) => {
   model
-    .deleteProduct(req.params.id)
+    .changeProduct(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.delete("/products/:id", (req, res) => {
+  console.log(req.body);
+  model
+    .deleteProduct(req.params.id, req.body)
     .then((response) => {
       res.status(200).send(response);
     })
