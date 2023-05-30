@@ -54,6 +54,39 @@ export const createUser = async (body) => {
   });
 };
 
+export const changeUser = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { property, change, user_id } = body;
+    console.log();
+    if (property === "height")
+      pool.query(
+        "UPDATE users SET height = $1 WHERE id = $2",
+        [change, user_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Рост изменен на ${change}`);
+        }
+      );
+    if (property === "weight") {
+      console.log(user_id);
+      pool.query(
+        "UPDATE users SET weight = $1 WHERE id = $2",
+        [change, user_id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            console.log(error);
+          }
+          resolve(`Вес изменен на ${change}`);
+        }
+      );
+    }
+  });
+};
+
 export const checkUser = (body) => {
   const { login, password } = body;
   return new Promise(function (resolve, reject) {
@@ -98,16 +131,18 @@ export const checkUser = (body) => {
 };
 
 export const getUserInfo = (body) => {
-  const { login } = body;
+  const user_id = body.body;
+  console.log("id", user_id);
   return new Promise(function (resolve, reject) {
     pool.query(
-      "SELECT * FROM users WHERE login = $1",
-      [login],
+      "SELECT * FROM users WHERE id = $1",
+      [user_id],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve(results.rows);
+        console.log(results.rows[0]);
+        resolve(results.rows[0]);
       }
     );
   });
@@ -172,7 +207,7 @@ export const deleteProduct = (key, body) => {
         if (error) {
           reject(error);
         }
-        resolve(`Удален продукт с ID: ${product_id}`);
+        resolve(`Удален продукт`);
       }
     );
   });
@@ -191,7 +226,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Название`);
+          resolve(`Название изменено на ${change}`);
         }
       );
     if (property === "category")
@@ -203,7 +238,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Категория`);
+          resolve(`Категория изменена на ${change}`);
         }
       );
     if (property === "price")
@@ -215,7 +250,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Цена`);
+          resolve(`Цена изменена на ${change}`);
         }
       );
     if (property === "protein")
@@ -227,7 +262,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Белки`);
+          resolve(`Белки изменены на ${change}`);
         }
       );
     if (property === "fats")
@@ -239,7 +274,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Жиры`);
+          resolve(`Жиры изменены на ${change}`);
         }
       );
     if (property === "carbs")
@@ -251,7 +286,7 @@ export const changeProduct = (body) => {
             reject(error);
             console.log(error);
           }
-          resolve(`Продукт изменен: Углеводы`);
+          resolve(`Углеводы изменены на ${change}`);
         }
       );
   });
@@ -443,13 +478,23 @@ export const createDish = (body) => {
 export const deleteDish = (id) => {
   return new Promise(function (resolve, reject) {
     pool.query(
-      "DELETE FROM dishes WHERE dish_id = $1",
+      "DELETE FROM product_dish WHERE dish_id = $1",
       [id],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve(`Блюдо удалено`);
+        if (results)
+          pool.query(
+            "DELETE FROM dishes WHERE dish_id = $1",
+            [id],
+            (error, results) => {
+              if (error) {
+                reject(error);
+              }
+              resolve(`Блюдо удалено`);
+            }
+          );
       }
     );
   });

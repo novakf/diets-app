@@ -38,7 +38,27 @@ const HomePage = () => {
     weight = jwtDecode(token).weight;
   }
 
-  cal = 10 * weight + 6.25 * height - 5 * age + 5;
+  const [info, setInfo] = useState(jwtDecode(token));
+
+  useEffect(() => {
+    const user_id = id;
+    axios
+      .post("http://localhost:3001/auth/me", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: user_id,
+      })
+      .then((res) => {
+        setInfo(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  cal = 10 * info.weight + 6.25 * info.height - 5 * info.age + 5;
 
   useEffect(() => {
     axios.get("http://localhost:3001/diets").then((res) => {
@@ -75,7 +95,7 @@ const HomePage = () => {
     token && (
       <div>
         {contextHolder}
-        <UserInfo info={jwtDecode(token)} />
+        <UserInfo jwtInfo={jwtDecode(token)} />
         <h1>
           Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
           !

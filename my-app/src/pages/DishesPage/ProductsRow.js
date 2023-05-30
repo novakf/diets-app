@@ -114,7 +114,13 @@ const EditableCell = ({
 
 const ProductsRow = ({ row, login, data }) => {
   const [messageApi, contextHolder] = message.useMessage();
-  const dataS = data[row.key - 1]?.products;
+  console.log(data);
+  console.log(row.key);
+  let dataS = data[row.key - 1]?.products;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].dish_id === row.key) dataS = data[i].products;
+  }
+
   for (let i = 0; i < dataS?.length; i++) {
     dataS[i].key = dataS[i].product_id;
   }
@@ -130,14 +136,11 @@ const ProductsRow = ({ row, login, data }) => {
     });
   }, []);
 
-  console.log(products);
-
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
     setDataSource(newData);
 
     const dish_id = row.dish_id;
-    console.log(dish_id);
 
     fetch(`http://localhost:3001/products/${key}`, {
       method: "DELETE",
@@ -261,8 +264,6 @@ const ProductsRow = ({ row, login, data }) => {
 
     newData.dish_id = row.dish_id;
 
-    console.log(newData);
-
     fetch("http://localhost:3001/products", {
       method: "POST",
       headers: {
@@ -279,8 +280,10 @@ const ProductsRow = ({ row, login, data }) => {
 
     if (dataSource) setDataSource([...dataSource, newData]);
     else setDataSource([newData]);
+
+    setProducts([...products, newData]);
+
     setCount(count + 1);
-    //console.log(dataSource);
   };
 
   const handleSave = (row) => {
@@ -315,6 +318,7 @@ const ProductsRow = ({ row, login, data }) => {
       }),
     };
   });
+
   return (
     <div>
       {contextHolder}

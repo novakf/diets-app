@@ -69,6 +69,8 @@ const DishesPage = () => {
   if (data) data.sort((a, b) => a.dish_id - b.dish_id);
   const [res, setRes] = useState(data);
 
+  console.log(data);
+
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);

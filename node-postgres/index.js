@@ -34,6 +34,17 @@ app.post("/auth/register", registerValidation, (req, res) => {
     });
 });
 
+app.put("/auth/register", (req, res) => {
+  model
+    .changeUser(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.post("/auth/login", (req, res) => {
   model
     .checkUser(req.body)
@@ -45,7 +56,8 @@ app.post("/auth/login", (req, res) => {
     });
 });
 
-app.get("/auth/me", (req, res) => {
+app.post("/auth/me", (req, res) => {
+  console.log("req", req.body);
   model
     .getUserInfo(req.body)
     .then((response) => {

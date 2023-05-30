@@ -2,29 +2,20 @@ import React, { memo } from "react";
 import styled from "styled-components";
 import SlickSlider from "react-slick";
 import { Button } from "antd";
-import './styles.css'
+import "./styles.css";
 
 export function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
-    <Button
-      className="NextDay"
-      onClick={onClick}
-    >
-      Next
+    <Button className="NextDay" onClick={onClick}>
+      Вперед
     </Button>
   );
 }
 
 export function PrevArrow(props) {
   const { className, style, onClick } = props;
-  return (
-    <Button
-      onClick={onClick}
-    >
-      Prev
-    </Button>
-  );
+  return <Button onClick={onClick}>Назад</Button>;
 }
 
 const MenuSlider = memo((props) => {
@@ -46,25 +37,25 @@ const MenuSlider = memo((props) => {
 });
 
 const StyledMenuSlider = styled(SlickSlider)`
-    .slick-track {
-        position: relative;
-        display: flex;
-        max-height: 450px;
-        width: 500px !important;
-        
-        padding: 0px 0px 0px 5px;
-        flex-direction: column;
-        flex-wrap: wrap;
-    }
-    .slick-slider {
-        height: 100%;
-        width: 300px;
-    }
+  .slick-track {
+    position: relative;
+    display: flex;
+    max-height: 450px;
+    width: 500px !important;
 
-    .slick-list {
-        width: 500px;
-        height: 300px;
-    }
+    padding: 0px 0px 0px 5px;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  .slick-slider {
+    height: 100%;
+    width: 300px;
+  }
+
+  .slick-list {
+    width: 510px;
+    height: 300px;
+  }
 `;
 
 export default MenuSlider;

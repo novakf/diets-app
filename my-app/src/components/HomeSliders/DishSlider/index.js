@@ -4,12 +4,11 @@ import SlickSlider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { Button } from "antd";
 
-
 export function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <Button className="NextDish" style={{}} onClick={onClick}>
-      Next
+      Вперед
     </Button>
   );
 }
@@ -18,7 +17,7 @@ export function PrevArrow(props) {
   const { className, style, onClick } = props;
   return (
     <Button className="PrevDish" style={{}} onClick={onClick}>
-      Prev
+      Назад
     </Button>
   );
 }
@@ -61,7 +60,7 @@ const StyledMenuSlider = styled(SlickSlider)`
     }
     .slick-list {
         width: 350px;
-        margin-left: 66px;
+        margin-left: 70px;
     }
     .slick-slide {
       
