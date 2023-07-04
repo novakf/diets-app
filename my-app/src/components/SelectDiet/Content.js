@@ -21,15 +21,15 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
       {
         key: id,
         calories: 2500,
-        protein: 50,
-        fats: 70,
-        carbs: 100,
+        protein: 140,
+        fats: 97,
+        carbs: 267,
       },
     ];
   else if (id === 1)
-    data = [{ key: id, calories: 2000, protein: 50, fats: 70, carbs: 100 }];
+    data = [{ key: id, calories: 2000, protein: 110, fats: 76, carbs: 216 }];
   else if (id === 2)
-    data = [{ key: id, calories: 1500, protein: 50, fats: 70, carbs: 100 }];
+    data = [{ key: id, calories: 1500, protein: 97, fats: 63, carbs: 138 }];
 
   const columns = [
     {

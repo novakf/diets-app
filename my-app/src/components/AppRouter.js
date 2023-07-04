@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { authRoutes, publicRoutes } from "../routes";
+import NotFound from "../pages/NotFound";
 import Layout from "./Layout";
 
 const AppRouter = () => {
@@ -30,6 +31,7 @@ const AppRouter = () => {
           exact
         />
       ))}
+      <Route path="*" element={<NotFound/>} />
     </Routes>
   );
 };
