@@ -16,8 +16,6 @@ const UserInfo = ({ jwtInfo }) => {
   const user_id = jwtInfo.id;
   const inputRef = useRef(null);
 
-  console.log("inf", info);
-
   useEffect(() => {
     axios
       .post("http://localhost:3001/auth/me", {

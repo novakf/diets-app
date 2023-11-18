@@ -23,7 +23,6 @@ const ProductPage = () => {
   const [res, setRes] = useState(data);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -59,7 +58,6 @@ const ProductPage = () => {
       dataIndex: "product_name",
       key: "product_name",
       onFilter: (value, record) => {
-        console.log("rec", record);
         record.dataIndex.toString().toLowerCase().includes(value.toLowerCase());
       },
       render: (text) => text,

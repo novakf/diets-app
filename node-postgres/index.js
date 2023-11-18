@@ -57,7 +57,6 @@ app.post("/auth/login", (req, res) => {
 });
 
 app.post("/auth/me", (req, res) => {
-  console.log("req", req.body);
   model
     .getUserInfo(req.body)
     .then((response) => {
@@ -102,7 +101,6 @@ app.put("/products", (req, res) => {
 });
 
 app.delete("/products/:id", (req, res) => {
-  console.log(req.body);
   model
     .deleteProduct(req.params.id, req.body)
     .then((response) => {

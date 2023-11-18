@@ -21,7 +21,7 @@ const HomePage = () => {
 
   React.useEffect(() => {
     if (!token) navigate("/login");
-  });
+  }, []);
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -38,7 +38,7 @@ const HomePage = () => {
     weight = jwtDecode(token).weight;
   }
 
-  const [info, setInfo] = useState(jwtDecode(token));
+  const [info, setInfo] = useState(token && jwtDecode(token));
 
   useEffect(() => {
     const user_id = id;
@@ -58,7 +58,7 @@ const HomePage = () => {
       });
   }, []);
 
-  cal = 10 * info.weight + 6.25 * info.height - 5 * info.age + 5;
+  if (token) cal = 10 * info.weight + 6.25 * info.height - 5 * info.age + 5;
 
   useEffect(() => {
     axios.get("http://localhost:3001/diets").then((res) => {
@@ -100,7 +100,6 @@ const HomePage = () => {
           Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
           !
         </h1>
-        {console.log(cal)}
         <Card
           title={`Ваш базовый метаболизм (основной обмен): ${cal} ккал/сутки`}
           bordered={false}

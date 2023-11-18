@@ -25,7 +25,6 @@ const EditableCell = ({
   ...restProps
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
-  //console.log(record);
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
   const form = useContext(EditableContext);
@@ -48,8 +47,6 @@ const EditableCell = ({
         ...record,
         ...values,
       });
-      console.log("record", record);
-      console.log("values", values);
 
       let property = Object.keys(values)[0];
       let change = Object.values(values)[0];
@@ -114,8 +111,6 @@ const EditableCell = ({
 
 const ProductsRow = ({ row, login, data }) => {
   const [messageApi, contextHolder] = message.useMessage();
-  console.log(data);
-  console.log(row.key);
   let dataS = data[row.key - 1]?.products;
   for (let i = 0; i < data.length; i++) {
     if (data[i].dish_id === row.key) dataS = data[i].products;

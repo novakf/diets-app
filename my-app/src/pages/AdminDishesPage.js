@@ -23,7 +23,6 @@ const DishesPage = () => {
   const [res, setRes] = useState(data);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -59,7 +58,6 @@ const DishesPage = () => {
       dataIndex: "dish_name",
       key: "dish_name",
       onFilter: (value, record) => {
-        console.log("rec", record);
         record.dataIndex.toString().toLowerCase().includes(value.toLowerCase());
       },
       render: (text) => text,
@@ -132,8 +130,6 @@ const DishesPage = () => {
   ];
 
   const expandedRow = (row) => {
-    console.log(row);
-
     const columns = [
       {
         title: "Продукт",
@@ -175,8 +171,6 @@ const DishesPage = () => {
         },
       },
     ];
-
-    console.log(data);
 
     const dataSource = data[row.key - 1].products;
     for (let i = 0; i < dataSource.length; i++)

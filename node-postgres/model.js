@@ -57,7 +57,6 @@ export const createUser = async (body) => {
 export const changeUser = (body) => {
   return new Promise(function (resolve, reject) {
     const { property, change, user_id } = body;
-    console.log();
     if (property === "height")
       pool.query(
         "UPDATE users SET height = $1 WHERE id = $2",
@@ -71,7 +70,6 @@ export const changeUser = (body) => {
         }
       );
     if (property === "weight") {
-      console.log(user_id);
       pool.query(
         "UPDATE users SET weight = $1 WHERE id = $2",
         [change, user_id],
@@ -132,7 +130,6 @@ export const checkUser = (body) => {
 
 export const getUserInfo = (body) => {
   const user_id = body.body;
-  console.log("id", user_id);
   return new Promise(function (resolve, reject) {
     pool.query(
       "SELECT * FROM users WHERE id = $1",
@@ -141,7 +138,6 @@ export const getUserInfo = (body) => {
         if (error) {
           reject(error);
         }
-        console.log(results.rows[0]);
         resolve(results.rows[0]);
       }
     );
@@ -216,7 +212,6 @@ export const deleteProduct = (key, body) => {
 export const changeProduct = (body) => {
   return new Promise(function (resolve, reject) {
     const { property, change, product_id } = body;
-    console.log();
     if (property === "product_name")
       pool.query(
         "UPDATE products SET product_name = $1 WHERE product_id = $2",

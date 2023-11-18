@@ -4,8 +4,6 @@ import { Table, Button, Space } from "antd";
 const ExpandedRow = ({ row, data, login }) => {
   const [update, setUpdate] = useState(false);
 
-  console.log("row", row);
-
   const columns =
     login === "admin"
       ? [
@@ -87,15 +85,12 @@ const ExpandedRow = ({ row, data, login }) => {
           },
         ];
 
-  console.log(data);
-
   const dataSource = data[row.key - 1]?.products;
   for (let i = 0; i < dataSource?.length; i++) {
     dataSource[i].key = dataSource[i]?.product_id;
   }
 
   function addProduct() {
-    console.log("add");
     const newData = {
       product_id: "1",
       product_name: `product ${dataSource.length}`,
@@ -106,7 +101,6 @@ const ExpandedRow = ({ row, data, login }) => {
       key: dataSource.length,
     };
     dataSource[dataSource.length] = newData;
-    console.log("dS", dataSource);
     setUpdate(!update);
   }
 

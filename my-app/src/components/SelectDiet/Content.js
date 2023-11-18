@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import MenuSlider from "../HomeSliders/MenuSlider";
 import DishSlider from "../HomeSliders/DishSlider";
-import ProgressiveImage from "react-progressive-graceful-image";
 import { Button, Spin, Table, Tag } from "antd";
 import jwtDecode from "jwt-decode";
 import { message } from "antd";
 
 const Content = ({ delDiet, updateStats, id, diets }) => {
-  const [status, setStatus] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
-
-  console.log(diets);
 
   let data = [];
 

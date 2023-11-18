@@ -41,7 +41,6 @@ const DishesPage = () => {
       return response.text();
     })
     .then((data) => {
-      console.log(1);
       setDishes(data);
     });
 
@@ -69,10 +68,7 @@ const DishesPage = () => {
   if (data) data.sort((a, b) => a.dish_id - b.dish_id);
   const [res, setRes] = useState(data);
 
-  console.log(data);
-
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -96,8 +92,6 @@ const DishesPage = () => {
     setRes(results);
   };
 
-  console.log("name", login);
-
   const columns =
     login === "admin"
       ? [
@@ -112,7 +106,6 @@ const DishesPage = () => {
             dataIndex: "dish_name",
             key: "dish_name",
             onFilter: (value, record) => {
-              console.log("rec", record);
               record.dataIndex
                 .toString()
                 .toLowerCase()
@@ -211,7 +204,6 @@ const DishesPage = () => {
             dataIndex: "dish_name",
             key: "dish_name",
             onFilter: (value, record) => {
-              console.log("rec", record);
               record.dataIndex
                 .toString()
                 .toLowerCase()
