@@ -1,4 +1,3 @@
-import Admin from "./pages/Admin";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";

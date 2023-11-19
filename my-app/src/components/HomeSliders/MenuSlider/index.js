@@ -5,7 +5,7 @@ import { Button } from "antd";
 import "./styles.css";
 
 export function NextArrow(props) {
-  const { className, style, onClick } = props;
+  const { onClick } = props;
   return (
     <Button className="NextDay" onClick={onClick}>
       Вперед
@@ -14,7 +14,7 @@ export function NextArrow(props) {
 }
 
 export function PrevArrow(props) {
-  const { className, style, onClick } = props;
+  const { onClick } = props;
   return <Button onClick={onClick}>Назад</Button>;
 }
 

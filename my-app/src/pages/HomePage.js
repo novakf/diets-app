@@ -5,19 +5,15 @@ import Menu from "../components/SelectDiet/Menu";
 import axios from "axios";
 import Content from "../components/SelectDiet/Content";
 import { Button, Typography } from "antd";
-import { style } from "@mui/system";
 import styled from "styled-components";
 import { message, Card } from "antd";
 import UserInfo from "../components/UserInfo";
-
-const { Text } = Typography;
 
 const HomePage = () => {
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const [stats, setStats] = useState("");
   const [diets, setDiets] = useState("");
-  const [status, setStatus] = useState("");
 
   React.useEffect(() => {
     if (!token) navigate("/login");
@@ -130,10 +126,6 @@ const HomePage = () => {
     )
   );
 };
-
-const SButton = styled(Button)`
-  margin-top: 50px;
-`;
 
 const Def = styled.div`
   margin-top: -15px;

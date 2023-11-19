@@ -147,11 +147,6 @@ const SInput = styled(Input)`
   margin-bottom: 10px;
 `;
 
-const Save = styled(Button)`
-  position: absolute;
-  margin-top: -35px;
-`;
-
 const HeightItem = styled(Descriptions.Item)`
   height: 50px !important;
 `;

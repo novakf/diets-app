@@ -402,8 +402,7 @@ INSERT INTO public.product_dish VALUES (24, 30, 12);
 INSERT INTO public.product_dish VALUES (25, 5, 12);
 INSERT INTO public.product_dish VALUES (26, 31, 12);
 INSERT INTO public.product_dish VALUES (27, 31, 13);
-INSERT INTO public.product_dish VALUES (59, 43, 38);
-INSERT INTO public.product_dish VALUES (60, 44, 38);
+INSERT INTO public.product_dish VALUES (59, 18, 38);
 
 
 --
@@ -439,9 +438,7 @@ INSERT INTO public.products VALUES (29, 'Кукуруза', 'Овощи', 50, 0,
 INSERT INTO public.products VALUES (23, 'Ветчина', 'Колбасы', 100, 0, 0, 0);
 INSERT INTO public.products VALUES (22, 'Черника', 'Ягоды', 100, 0, 0, 0);
 INSERT INTO public.products VALUES (26, 'Соба', 'Каши', 40, 0, 0, 0);
-INSERT INTO public.products VALUES (43, 'Овсянка', 'Каши', 0, 0, 0, 0);
 INSERT INTO public.products VALUES (10, 'Молоко', 'Кисломолочные', 60, 5, 7, 20);
-INSERT INTO public.products VALUES (44, 'Овсянка', '*', 0, 0, 0, 0);
 INSERT INTO public.products VALUES (4, 'Гречка', 'Каши', 40, 10, 4, 40);
 INSERT INTO public.products VALUES (41, 'макароны', 'мучное', 1, 2, 0, 0);
 INSERT INTO public.products VALUES (42, 'Сыр', 'Молочные', 100, 1, 1, 4);

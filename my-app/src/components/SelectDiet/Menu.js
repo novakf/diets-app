@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import React, { useMemo } from "react";
 import { Tabs } from "antd";
 import Content from "./Content";
-import { CircularProgress } from "@mui/material";
-import { Spin } from "antd";
 
 const Menu = ({ updateStats, diets }) => {
-  const [loading, setLoading] = useState(false);
-
   const items = useMemo(
     () =>
       new Array(diets.length).fill(null).map((_, id) => {
@@ -20,14 +15,6 @@ const Menu = ({ updateStats, diets }) => {
       }),
     [diets]
   );
-  
-  const loader = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 700);
-    return;
-  };
 
   return (
     diets && (

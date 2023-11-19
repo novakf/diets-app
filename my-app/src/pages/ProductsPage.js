@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Table, Space, Button, Input } from "antd";
+import { Table, Button, Input } from "antd";
 
 const ProductPage = () => {
   const [products, setProducts] = useState(false);

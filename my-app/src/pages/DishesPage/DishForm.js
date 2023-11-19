@@ -1,5 +1,4 @@
 import { Modal, Button, Input } from "antd";
-import { PlusSquareOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { message } from "antd";

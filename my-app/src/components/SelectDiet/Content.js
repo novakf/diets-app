@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import MenuSlider from "../HomeSliders/MenuSlider";
 import DishSlider from "../HomeSliders/DishSlider";
@@ -75,7 +75,7 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
         return response.text();
       })
       .then((data) => {
-        message.open({ type: "success", content: data });
+        messageApi.open({ type: "success", content: data });
       });
     updateStats && updateStats();
   }
@@ -167,30 +167,6 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
     )
   );
 };
-
-const Hide = styled.div`
-  animation: cssAnimation 0s 0.7s forwards;
-  visibility: hidden;
-
-  @keyframes cssAnimation {
-    to {
-      visibility: visible;
-    }
-  }
-`;
-
-const SSpin = styled(Spin)`
-  margin-top: 120px;
-  margin-left: -100px;
-  animation: spinAnimation 0s 0.5s forwards;
-  visibility: visible;
-
-  @keyframes spinAnimation {
-    to {
-      visibility: hidden;
-    }
-  }
-`;
 
 const StyledImg = styled.img`
   width: 300px;

@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import { Button } from "antd";
 
 export function NextArrow(props) {
-  const { className, style, onClick } = props;
+  const { onClick } = props;
   return (
     <Button className="NextDish" style={{}} onClick={onClick}>
       Вперед
@@ -14,7 +14,7 @@ export function NextArrow(props) {
 }
 
 export function PrevArrow(props) {
-  const { className, style, onClick } = props;
+  const { onClick } = props;
   return (
     <Button className="PrevDish" style={{}} onClick={onClick}>
       Назад
@@ -65,10 +65,6 @@ const StyledMenuSlider = styled(SlickSlider)`
     .slick-slide {
       
     }
-`;
-
-const Next = styled(Button)`
-  margin-botto: 50px;
 `;
 
 export default MenuSlider;
