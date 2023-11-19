@@ -10,7 +10,7 @@ const Menu = ({ updateStats, diets }) => {
         return {
           label: label,
           key: id,
-          children: <Content updateStats={updateStats} id={id} diets={diets} loading={loading} />,
+          children: <Content updateStats={updateStats} id={id} diets={diets} loading={false} />,
         };
       }),
     [diets]

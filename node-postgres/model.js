@@ -137,8 +137,7 @@ export const getUserInfo = (body) => {
       (error, results) => {
         if (error) {
           reject(error);
-        }
-        resolve(results.rows[0]);
+        } else resolve(results.rows[0]);
       }
     );
   });
