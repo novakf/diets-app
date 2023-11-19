@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 
 const { Pool } = pkg;
 const pool = new Pool({
-  user: "postgres",
+  user: "root",
   host: "localhost",
-  database: "electron-app",
-  password: "302310",
+  database: "diets-app",
+  password: "root",
   port: 5432,
 });
 
