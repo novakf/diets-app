@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/diets-app/static/css/main.0da071ef.css",
+    "main.js": "/diets-app/static/js/main.bcfaeef1.js",
+    "index.html": "/diets-app/index.html",
+    "main.0da071ef.css.map": "/diets-app/static/css/main.0da071ef.css.map",
+    "main.bcfaeef1.js.map": "/diets-app/static/js/main.bcfaeef1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0da071ef.css",
+    "static/js/main.bcfaeef1.js"
+  ]
+}
