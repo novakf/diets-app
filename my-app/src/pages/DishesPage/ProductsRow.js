@@ -67,6 +67,9 @@ const EditableCell = ({
         })
         .then((data) => {
           messageApi.open({ type: "success", content: data });
+        })
+        .catch(() => {
+          messageApi.open({ type: "error", content: "Ошибка сервера" });
         });
     } catch (errInfo) {
       console.log("Save failed:", errInfo);
@@ -149,6 +152,9 @@ const ProductsRow = ({ row, login, data }) => {
       })
       .then((data) => {
         messageApi.open({ type: "success", content: data });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
       });
   };
 
@@ -246,39 +252,23 @@ const ProductsRow = ({ row, login, data }) => {
         ];
 
   const handleAdd = () => {
-    const newData = {
-      product_id: products[products.length - 1].product_id + 1,
-      product_name: "*",
-      category: "*",
-      price: "0",
-      protein: "0",
-      fats: "0",
-      carbs: "0",
-      key: count,
-    };
-
-    newData.dish_id = row.dish_id;
 
     fetch("http://localhost:3001/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newData),
     })
       .then((response) => {
         return response.text();
       })
       .then((data) => {
         messageApi.open({ type: "success", content: data });
-      });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
+      })
 
-    if (dataSource) setDataSource([...dataSource, newData]);
-    else setDataSource([newData]);
-
-    setProducts([...products, newData]);
-
-    setCount(count + 1);
   };
 
   const handleSave = (row) => {

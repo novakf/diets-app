@@ -41,7 +41,10 @@ const DishForm = (props) => {
           top: document.body.scrollHeight,
           behavior: "smooth",
         });
-      });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
+      })
   };
 
   const handleClose = () => {

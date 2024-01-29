@@ -28,9 +28,6 @@ const UserInfo = ({ jwtInfo }) => {
       .then((res) => {
         setInfo(res.data);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
   }, [editingHeight || editingWeight]);
 
   useEffect(() => {
@@ -59,7 +56,10 @@ const UserInfo = ({ jwtInfo }) => {
       })
       .then((data) => {
         messageApi.open({ type: "success", content: data });
-      });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
+      })
   };
 
   const saveWeight = () => {
@@ -82,7 +82,10 @@ const UserInfo = ({ jwtInfo }) => {
       })
       .then((data) => {
         messageApi.open({ type: "success", content: data });
-      });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
+      })
   };
 
   return (

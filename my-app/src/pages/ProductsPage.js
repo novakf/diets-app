@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Table, Button, Input } from "antd";
+import productsMock from '../mocks/products'
 
 const ProductPage = () => {
-  const [products, setProducts] = useState(false);
+  const [products, setProducts] = useState(productsMock);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
-  fetch("http://localhost:3001")
-    .then((response) => {
-      return response.text();
-    })
-    .then((data) => {
-      setProducts(data);
-    });
-
-  const data = JSON.parse(products);
+  const data = products;
   for (let i = 0; i < data.length; i++) data[i].key = data[i].product_id;
 
   if (data) data.sort((a, b) => a.product_id - b.product_id);

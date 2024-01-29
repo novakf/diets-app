@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Table, Space, Button, Input } from "antd";
+import dishesMock from '../mocks/dishes'
 
 const DishesPage = () => {
-  const [dishes, setDishes] = useState(false);
+  const [dishes, setDishes] = useState(dishesMock);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
@@ -12,7 +13,7 @@ const DishesPage = () => {
       return response.text();
     })
     .then((data) => {
-      setDishes(data);
+      setDishes(dishesMock);
     });
 
   const data = JSON.parse(dishes);

@@ -61,25 +61,6 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
     },
   ];
 
-  async function setStats() {
-    const user_id = jwtDecode(window.localStorage.getItem("token")).id;
-    const diet_id = id + 1;
-    await fetch("http://localhost:3001/stats", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id, diet_id }),
-    })
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        messageApi.open({ type: "success", content: data });
-      });
-    updateStats && updateStats();
-  }
-
   return (
     diets && (
       <div>
@@ -154,7 +135,13 @@ const Content = ({ delDiet, updateStats, id, diets }) => {
             columns={columns}
           />
           {!delDiet ? (
-            <SButton onClick={setStats} type="primary" size="large">
+            <SButton
+              onClick={() => {
+                messageApi.open({ type: "error", content: "Ошибка сервера" });
+              }}
+              type="primary"
+              size="large"
+            >
               Выбрать
             </SButton>
           ) : (

@@ -15,12 +15,15 @@ import { message } from "antd";
 import ProductsRow from "./ProductsRow";
 import DishForm from "./DishForm";
 
+import dishesMock from "../../mocks/dishes";
+import productsMock from "../../mocks/products";
+
 const DishesPage = () => {
-  const [dishes, setDishes] = useState(false);
+  const [dishes, setDishes] = useState(dishesMock);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [update, setUpdate] = useState(false);
-  const [products, setProducts] = useState({});
+  const [products, setProducts] = useState(productsMock);
   const [messageApi, contextHolder] = message.useMessage();
 
   const token = window.localStorage.getItem("token");
@@ -52,10 +55,13 @@ const DishesPage = () => {
       .then((data) => {
         messageApi.open({ type: "success", content: data });
         setUpdate(!update);
-      });
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
+      })
   }
 
-  const data = JSON.parse(dishes);
+  const data = dishes;
   for (let i = 0; i < data.length; i++) {
     data[i].key = data[i].dish_id;
     //    if (!data[i].photo)
