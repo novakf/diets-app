@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "public/electron.js",
   "private": true,
+  "homepage": "https://novakf.github.io/diets-app",
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "@emotion/react": "^11.10.8",
@@ -15,6 +16,7 @@
     "crypto-browserify": "^3.12.0",
     "electron-prompt": "^1.7.0",
     "fs": "^0.0.1-security",
+    "gh-pages": "^6.1.1",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "path": "^0.12.7",
@@ -34,6 +36,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
