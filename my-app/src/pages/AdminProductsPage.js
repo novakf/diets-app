@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Table, Space, Button, Input } from "antd";
+import productsMock from '../mocks/products'
 
 const ProductPage = () => {
-  const [products, setProducts] = useState(false);
+  const [products, setProducts] = useState(productsMock);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
 
@@ -12,9 +13,9 @@ const ProductPage = () => {
       return response.text();
     })
     .then((data) => {
-      setProducts(data);
-    });
-
+      setProducts(productsMock);
+    })
+    
   const data = JSON.parse(products);
   for (let i = 0; i < data.length; i++) data[i].key = data[i].product_id;
 

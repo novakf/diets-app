@@ -8,33 +8,22 @@ import { Button, Typography } from "antd";
 import styled from "styled-components";
 import { message, Card } from "antd";
 import UserInfo from "../components/UserInfo";
+import userMock from "../mocks/profile";
+import dietsMock from "../mocks/diets";
 
 const HomePage = () => {
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
   const [stats, setStats] = useState("");
-  const [diets, setDiets] = useState("");
+  const [diets, setDiets] = useState(dietsMock);
 
-  React.useEffect(() => {
-    if (!token) navigate("/login");
-  }, []);
+  React.useEffect(() => {}, []);
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  let id = "",
-    age = 0,
-    height = 0,
-    weight = 0,
-    cal = 0;
+  let { id, age, height, weight, cal } = userMock;
 
-  if (token) {
-    id = jwtDecode(token).id;
-    age = jwtDecode(token).age;
-    height = jwtDecode(token).height;
-    weight = jwtDecode(token).weight;
-  }
-
-  const [info, setInfo] = useState(token && jwtDecode(token));
+  const [info, setInfo] = useState(userMock);
 
   useEffect(() => {
     const user_id = id;
@@ -54,7 +43,7 @@ const HomePage = () => {
       });
   }, []);
 
-  if (token) cal = 10 * info.weight + 6.25 * info.height - 5 * info.age + 5;
+  cal = 10 * info.weight + 6.25 * info.height - 5 * info.age + 5;
 
   useEffect(() => {
     axios.get("http://localhost:3001/diets").then((res) => {
@@ -71,7 +60,7 @@ const HomePage = () => {
       })
       .catch((err) => {
         setStats("");
-      });
+      })
   }
 
   function deleteDiet() {
@@ -84,46 +73,46 @@ const HomePage = () => {
       .then((data) => {
         messageApi.open({ type: "success", content: data });
         setStats("");
+      })
+      .catch(() => {
+        messageApi.open({ type: "error", content: "Ошибка сервера" });
       });
   }
 
   return (
-    token && (
-      <div>
-        {contextHolder}
-        <UserInfo jwtInfo={jwtDecode(token)} />
-        <h1>
-          Привет, {jwtDecode(token).name ? jwtDecode(token).name : "Незнакомец"}
-          !
-        </h1>
-        <Card
-          title={`Ваш базовый метаболизм (основной обмен): ${cal} ккал/сутки`}
-          bordered={false}
-          style={{ width: "800px" }}
-        >
-          <Def>
-            * это калории, которые сжигаются, когда вы находитесь в покое, и
-            энергия тратится на обеспечение процессов дыхания, кровообращения,
-            поддержание температуры тела и т.д.
-          </Def>
-        </Card>
-        {stats[0] ? (
-          <div>
-            <h2>Твой рацион: {stats[0].diet_id.type}</h2>
-            <Content
-              delDiet={deleteDiet}
-              id={stats[0].diet_id.diet_id - 1}
-              diets={diets}
-            />
-          </div>
-        ) : (
-          <div>
-            <h2>Выбери рацион:</h2>
-            <Menu updateStats={updateStats} diets={diets} />
-          </div>
-        )}
-      </div>
-    )
+    <div>
+      {contextHolder}
+      <UserInfo jwtInfo={userMock} />
+      <h1>
+        Привет, {userMock.name ? userMock.name : "Незнакомец"}!
+      </h1>
+      <Card
+        title={`Ваш базовый метаболизм (основной обмен): ${cal} ккал/сутки`}
+        bordered={false}
+        style={{ width: "800px" }}
+      >
+        <Def>
+          * это калории, которые сжигаются, когда вы находитесь в покое, и
+          энергия тратится на обеспечение процессов дыхания, кровообращения,
+          поддержание температуры тела и т.д.
+        </Def>
+      </Card>
+      {stats[0] ? (
+        <div>
+          <h2>Твой рацион: {stats[0].diet_id.type}</h2>
+          <Content
+            delDiet={deleteDiet}
+            id={stats[0].diet_id.diet_id - 1}
+            diets={diets}
+          />
+        </div>
+      ) : (
+        <div>
+          <h2>Выбери рацион:</h2>
+          <Menu updateStats={updateStats} diets={diets} />
+        </div>
+      )}
+    </div>
   );
 };
 
